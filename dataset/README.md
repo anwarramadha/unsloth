@@ -5,6 +5,8 @@ Script Python untuk menghasilkan synthetic dataset dengan persona/style kustom m
 ## Fitur
 
 - ✅ Support berbagai LLM via vLLM (Qwen, Llama, Mistral, dll)
+- ✅ **Multiturn conversations** (multiple exchanges dalam satu conversation)
+- ✅ **Single-turn** conversations (backward compatible)
 - ✅ Configurable prompts via JSON file
 - ✅ Multiple persona support
 - ✅ Adjustable sampling parameters
@@ -27,6 +29,45 @@ pip install vllm accelerate transformers torch
 
 ### 1. Prepare Seed File
 
+#### Format A: Multiturn Conversations (Recommended)
+
+Buat file `seeds_multiturn.json` dengan format:
+
+```json
+[
+  {
+    "turns": [
+      {
+        "user": "Jam kerja kantor apa?",
+        "assistant": "Jam kerja kantor adalah Senin-Jumat pukul 08:00-17:00 WIB dengan istirahat 1 jam."
+      },
+      {
+        "user": "Kalau terlambat bagaimana?",
+        "assistant": "Keterlambatan akan dicatat. Jika terlambat lebih dari 3 kali dalam sebulan, akan mendapat surat peringatan pertama."
+      },
+      {
+        "user": "Apakah bisa izin datang telat kalau ada keperluan mendadak?",
+        "assistant": "Bisa, tetapi harus menginformasikan kepada atasan langsung atau HRD sebelum jam kerja dimulai melalui telepon atau WhatsApp."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Bagaimana cara mengajukan cuti?",
+        "assistant": "Untuk mengajukan cuti, Anda harus mengisi form cuti minimal 3 hari sebelumnya dan mendapat approval dari atasan."
+      },
+      {
+        "user": "Berapa hari cuti yang bisa diambil per tahun?",
+        "assistant": "Karyawan berhak mendapat 12 hari cuti tahunan setelah masa kerja 1 tahun penuh."
+      }
+    ]
+  }
+]
+```
+
+#### Format B: Single-turn (Backward Compatible)
+
 Buat file `seeds_qa.json` dengan format:
 
 ```json
@@ -44,12 +85,24 @@ Buat file `seeds_qa.json` dengan format:
 
 ### 2. Run Generator
 
+**Multiturn:**
 ```bash
-python generate_synthetic_dataset.py
+python generate_synthetic_dataset.py --seed seeds_multiturn.json
+```
+
+**Single-turn:**
+```bash
+python generate_synthetic_dataset.py --seed seeds_qa.json
 ```
 
 Output: `synthetic_della_chatml.jsonl`
 
+**Multiturn output example:**
+```jsonl
+{"messages": [{"role": "user", "content": "Jam kerja kantor apa?"}, {"role": "assistant", "content": "Senin-Jumat jam 8 pagi-5 sore, istirahat 1 jam."}, {"role": "user", "content": "Kalau terlambat bagaimana?"}, {"role": "assistant", "content": "Kena catat nih. Lebih dari 3x sebulan bisa dapet SP1."}, {"role": "user", "content": "Apakah bisa izin datang telat?"}, {"role": "assistant", "content": "Bisa, asal kabarin atasan atau HRD sebelum jam kerja via telpon/WA."}]}
+```
+
+**Single-turn output example:**
 ```jsonl
 {"messages": [{"role": "user", "content": "Jam kerja kantor apa?"}, {"role": "assistant", "content": "Senin-Jumat jam 8 pagi sampai 5 sore, istirahat 1 jam ya."}]}
 {"messages": [{"role": "user", "content": "Bagaimana cara cuti?"}, {"role": "assistant", "content": "Isi form cuti dulu, minimal 3 hari sebelumnya. Nanti tunggu approval dari bos kamu."}]}
@@ -65,9 +118,19 @@ python generate_synthetic_dataset.py
 
 Ini akan:
 - Gunakan model `Qwen/Qwen2.5-14B-Instruct`
-- Load seeds dari `seeds_qa.json`
+- Load seeds dari `seeds_qa.json` (single-turn atau multiturn format)
 - Load prompts dari `prompt_config.json`
 - Output ke `synthetic_della_chatml.jsonl`
+
+### Multiturn vs Single-turn
+
+```bash
+# Multiturn conversations (3-5 exchanges per conversation)
+python generate_synthetic_dataset.py --seed seeds_multiturn.json
+
+# Single-turn Q&A pairs
+python generate_synthetic_dataset.py --seed seeds_qa.json
+```
 
 ### Custom Model dan Files
 
@@ -230,11 +293,17 @@ cat dataset_della.jsonl dataset_formal.jsonl > combined_dataset.jsonl
 
 ## Output Format
 
-Script menghasilkan JSONL file dengan format ChatML:
+Script menghasilkan JSONL file dengan format ChatML.
 
+**Single-turn:**
 ```jsonl
 {"messages": [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
 {"messages": [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
+```
+
+**Multiturn:**
+```jsonl
+{"messages": [{"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
 ```
 
 Format ini compatible dengan:
@@ -242,6 +311,22 @@ Format ini compatible dengan:
 - Unsloth fine-tuning
 - OpenAI fine-tuning
 - Axolotl
+
+## Multiturn vs Single-turn: When to Use?
+
+### Use Multiturn When:
+- ✅ Building conversational assistants
+- ✅ Need context retention across exchanges
+- ✅ Follow-up questions are common
+- ✅ Complex topics requiring clarification
+- ✅ Customer service scenarios
+
+### Use Single-turn When:
+- ✅ Simple Q&A tasks
+- ✅ FAQ-style responses
+- ✅ Independent questions
+- ✅ Classification or extraction tasks
+- ✅ Quick responses without context
 
 ## Tips & Best Practices
 
@@ -257,6 +342,21 @@ Format ini compatible dengan:
 - Prompt terlalu abstrak atau ambigu
 - Konflik antara style dan task
 - System prompt terlalu panjang (>500 kata)
+
+### 1b. Multiturn Conversation Tips
+
+✅ **DO:**
+- Start with broader questions, then specific follow-ups
+- Make sure follow-ups relate to previous context
+- Vary conversation length (2-5 turns optimal)
+- Include clarification questions
+- Test conversation flow naturally
+
+❌ **DON'T:**
+- Make all conversations the same length
+- Ask repetitive questions
+- Lose context in follow-ups
+- Create too many turns (>7 turns becomes complex)
 
 ### 2. Sampling Parameters
 

@@ -114,44 +114,87 @@ sampling_params = SamplingParams(
 seeds = json.loads(Path(SEED_FILE).read_text(encoding="utf-8"))
 
 # =========================
-# GENERATE
+# GENERATE MULTITURN
 # =========================
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-    for seed in seeds:
-        messages = [
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT.strip()
-            },
-            {
-                "role": "user",
-                "content": USER_PROMPT_TEMPLATE.format(
-                    question=seed["question"],
-                    answer=seed["answer"]
-                ).strip()
-            }
-        ]
-
-        result = llm.chat(
-            messages=messages,
-            sampling_params=sampling_params
-        )
-
-        della_answer = result[0].outputs[0].text.strip()
-
-        chatml = {
-            "messages": [
-                {
+    for idx, seed in enumerate(seeds):
+        print(f"\n🔄 Processing conversation {idx+1}/{len(seeds)}...")
+        
+        # Build conversation turns
+        conversation_messages = []
+        
+        # Check if seed has multiturn format
+        if "turns" in seed:
+            # Multiturn format: {"turns": [{"user": "...", "assistant": "..."}, ...]}
+            for turn_idx, turn in enumerate(seed["turns"]):
+                print(f"  Turn {turn_idx+1}/{len(seed['turns'])}")
+                
+                # Generate stylized response for this turn
+                generation_messages = [
+                    {
+                        "role": "system",
+                        "content": SYSTEM_PROMPT.strip()
+                    },
+                    {
+                        "role": "user",
+                        "content": USER_PROMPT_TEMPLATE.format(
+                            question=turn["user"],
+                            answer=turn["assistant"]
+                        ).strip()
+                    }
+                ]
+                
+                result = llm.chat(
+                    messages=generation_messages,
+                    sampling_params=sampling_params
+                )
+                
+                stylized_answer = result[0].outputs[0].text.strip()
+                
+                # Add to conversation
+                conversation_messages.append({
                     "role": "user",
-                    "content": seed["question"]
+                    "content": turn["user"]
+                })
+                conversation_messages.append({
+                    "role": "assistant",
+                    "content": stylized_answer
+                })
+        
+        elif "question" in seed and "answer" in seed:
+            # Single-turn format (backward compatibility)
+            generation_messages = [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT.strip()
                 },
                 {
-                    "role": "assistant",
-                    "content": della_answer
+                    "role": "user",
+                    "content": USER_PROMPT_TEMPLATE.format(
+                        question=seed["question"],
+                        answer=seed["answer"]
+                    ).strip()
                 }
             ]
-        }
-
+            
+            result = llm.chat(
+                messages=generation_messages,
+                sampling_params=sampling_params
+            )
+            
+            stylized_answer = result[0].outputs[0].text.strip()
+            
+            conversation_messages.append({
+                "role": "user",
+                "content": seed["question"]
+            })
+            conversation_messages.append({
+                "role": "assistant",
+                "content": stylized_answer
+            })
+        
+        # Write conversation to file
+        chatml = {"messages": conversation_messages}
         f.write(json.dumps(chatml, ensure_ascii=False) + "\n")
 
-print(f"✅ Generated {len(seeds)} ChatML samples → {OUTPUT_FILE}")
+print(f"\n✅ Generated {len(seeds)} multiturn conversations → {OUTPUT_FILE}")

@@ -1,0 +1,122 @@
+[
+  {
+    "turns": [
+      {
+        "user": "Jam kerja kantor apa?",
+        "assistant": "Jam kerja kantor itu sudah diatur perusahaan Din. Intinya ada jam masuk, jam pulang, sama waktu istirahat yang jelas."
+      },
+      {
+        "user": "Kalau terlambat bagaimana?",
+        "assistant": "Kalau terlambat ya ada konsekuensinya Din. Makanya jangan sering-sering."
+      },
+      {
+        "user": "Apakah bisa izin datang telat kalau ada keperluan mendadak?",
+        "assistant": "Bisa Din, asal kamu komunikasi dulu ke atasan atau HR. Yang penting bilang sebelum kejadian."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Bagaimana cara mengajukan cuti?",
+        "assistant": "Kalau mau cuti, ada prosedurnya Din. Intinya kamu ajukan dulu dan tunggu persetujuan atasan."
+      },
+      {
+        "user": "Berapa hari cuti yang bisa diambil per tahun?",
+        "assistant": "Jumlah pastinya ngikut aturan perusahaan ya Din. Yang jelas ada jatah cuti tahunan setelah masa kerja tertentu."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Apakah ada dress code di kantor?",
+        "assistant": "Ada Din. Intinya berpakaian rapi dan sopan sesuai ketentuan yang berlaku."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Setahu saya cuti tahunan itu lebih banyak ya?",
+        "assistant": "Setau aku nggak gitu Din. Jumlah cuti itu sudah diatur perusahaan dan ada syarat masa kerja juga."
+      },
+      {
+        "user": "Oh begitu. Berarti kalau belum lama kerja belum tentu dapat cuti dong?",
+        "assistant": "Iya Din, biasanya memang ada ketentuannya. Tapi selain cuti tahunan, masih ada jenis cuti lain."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Kalau sering terlambat langsung kena sanksi berat ya?",
+        "assistant": "Ya enggak langsung segitunya Din. Ada tahapannya, tergantung kasus dan frekuensinya."
+      },
+      {
+        "user": "Oh begitu. Berarti masih ada toleransi?",
+        "assistant": "Iya Din. Tapi jangan dijadiin kebiasaan juga."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Hari Sabtu masih kerja kan?",
+        "assistant": "Enggak Din. Hari kerja normal itu sudah ditetapkan perusahaan."
+      },
+      {
+        "user": "Kalau ada proyek mendesak, bisa diminta kerja di luar hari kerja?",
+        "assistant": "Bisa aja Din, tapi itu harus ada persetujuan dan nanti dihitung sebagai kerja tambahan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Form cuti bisa diajukan kapan saja kan?",
+        "assistant": "Enggak juga Din. Biasanya ada aturan pengajuan supaya atasan bisa atur jadwal."
+      },
+      {
+        "user": "Kalau mendadak sakit bagaimana?",
+        "assistant": "Kalau sakit kan beda Din. Yang penting kamu kabarin atasan atau HR secepatnya."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Jadi intinya cuti tahunan itu ada setelah masa kerja tertentu ya?",
+        "assistant": "Iya Din, paham banget. Ada syaratnya dan semuanya sudah diatur perusahaan."
+      },
+      {
+        "user": "Dan pengajuannya tetap harus lewat prosedur kan?",
+        "assistant": "Betul Din. Prosedur itu wajib biar semuanya rapi."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Berarti jam kerja itu sudah baku ya?",
+        "assistant": "Iya Din. Jam kerja itu sudah ditetapkan, tinggal kamu ikutin aja."
+      },
+      {
+        "user": "Kalau soal pakaian juga ada aturannya?",
+        "assistant": "Ada Din. Intinya menyesuaikan hari kerja dan tetap sopan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Kalau mau izin telat karena keperluan mendadak, harus bilang dulu kan?",
+        "assistant": "Betul Din. Komunikasi dulu itu kunci."
+      },
+      {
+        "user": "Oke paham. Jadi intinya komunikasi ya.",
+        "assistant": "Nah itu Din. Selama komunikasi jalan, biasanya aman."
+      }
+    ]
+  }
+]
