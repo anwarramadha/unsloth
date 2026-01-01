@@ -51,6 +51,13 @@ parser.add_argument(
     help="Maximum tokens to generate (default: 256)"
 )
 parser.add_argument(
+    "--num-variations",
+    "-n",
+    type=int,
+    default=1,
+    help="Number of variations to generate per seed (default: 1)"
+)
+parser.add_argument(
     "--prompt-config",
     "-c",
     type=str,
@@ -78,6 +85,7 @@ OUTPUT_FILE = args.output
 TEMPERATURE = args.temperature
 TOP_P = args.top_p
 MAX_TOKENS = args.max_tokens
+NUM_VARIATIONS = args.num_variations
 
 # =========================
 # LOAD PROMPT CONFIG
@@ -119,20 +127,63 @@ seeds = json.loads(Path(SEED_FILE).read_text(encoding="utf-8"))
 # =========================
 # GENERATE MULTITURN
 # =========================
+total_generated = 0
+
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     for idx, seed in enumerate(seeds):
-        print(f"\n🔄 Processing conversation {idx+1}/{len(seeds)}...")
+        print(f"\n📝 Processing seed {idx+1}/{len(seeds)}...")
         
-        # Build conversation turns
-        conversation_messages = []
-        
-        # Check if seed has multiturn format
-        if "turns" in seed:
-            # Multiturn format: {"turns": [{"user": "...", "assistant": "..."}, ...]}
-            for turn_idx, turn in enumerate(seed["turns"]):
-                print(f"  Turn {turn_idx+1}/{len(seed['turns'])}")
-                
-                # Generate stylized response for this turn
+        # Generate N variations for each seed
+        for variation in range(NUM_VARIATIONS):
+            if NUM_VARIATIONS > 1:
+                print(f"  🔄 Variation {variation+1}/{NUM_VARIATIONS}")
+            
+            # Build conversation turns
+            conversation_messages = []
+            
+            # Check if seed has multiturn format
+            if "turns" in seed:
+                # Multiturn format: {"turns": [{"user": "...", "assistant": "..."}, ...]}
+                for turn_idx, turn in enumerate(seed["turns"]):
+                    if NUM_VARIATIONS > 1:
+                        print(f"    Turn {turn_idx+1}/{len(seed['turns'])}")
+                    else:
+                        print(f"  Turn {turn_idx+1}/{len(seed['turns'])}")
+                    
+                    # Generate stylized response for this turn
+                    generation_messages = [
+                        {
+                            "role": "system",
+                            "content": SYSTEM_PROMPT.strip()
+                        },
+                        {
+                            "role": "user",
+                            "content": USER_PROMPT_TEMPLATE.format(
+                                question=turn["user"],
+                                answer=turn["assistant"]
+                            ).strip()
+                        }
+                    ]
+                    
+                    result = llm.chat(
+                        messages=generation_messages,
+                        sampling_params=sampling_params
+                    )
+                    
+                    stylized_answer = result[0].outputs[0].text.strip()
+                    
+                    # Add to conversation
+                    conversation_messages.append({
+                        "role": "user",
+                        "content": turn["user"]
+                    })
+                    conversation_messages.append({
+                        "role": "assistant",
+                        "content": stylized_answer
+                    })
+            
+            elif "question" in seed and "answer" in seed:
+                # Single-turn format (backward compatibility)
                 generation_messages = [
                     {
                         "role": "system",
@@ -141,8 +192,8 @@ with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
                     {
                         "role": "user",
                         "content": USER_PROMPT_TEMPLATE.format(
-                            question=turn["user"],
-                            answer=turn["assistant"]
+                            question=seed["question"],
+                            answer=seed["answer"]
                         ).strip()
                     }
                 ]
@@ -154,50 +205,20 @@ with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
                 
                 stylized_answer = result[0].outputs[0].text.strip()
                 
-                # Add to conversation
                 conversation_messages.append({
                     "role": "user",
-                    "content": turn["user"]
+                    "content": seed["question"]
                 })
                 conversation_messages.append({
                     "role": "assistant",
                     "content": stylized_answer
                 })
-        
-        elif "question" in seed and "answer" in seed:
-            # Single-turn format (backward compatibility)
-            generation_messages = [
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT.strip()
-                },
-                {
-                    "role": "user",
-                    "content": USER_PROMPT_TEMPLATE.format(
-                        question=seed["question"],
-                        answer=seed["answer"]
-                    ).strip()
-                }
-            ]
             
-            result = llm.chat(
-                messages=generation_messages,
-                sampling_params=sampling_params
-            )
-            
-            stylized_answer = result[0].outputs[0].text.strip()
-            
-            conversation_messages.append({
-                "role": "user",
-                "content": seed["question"]
-            })
-            conversation_messages.append({
-                "role": "assistant",
-                "content": stylized_answer
-            })
-        
-        # Write conversation to file
-        chatml = {"messages": conversation_messages}
-        f.write(json.dumps(chatml, ensure_ascii=False) + "\n")
+            # Write conversation to file
+            chatml = {"messages": conversation_messages}
+            f.write(json.dumps(chatml, ensure_ascii=False) + "\n")
+            total_generated += 1
 
-print(f"\n✅ Generated {len(seeds)} multiturn conversations → {OUTPUT_FILE}")
+print(f"\n✅ Generated {total_generated} conversations from {len(seeds)} seeds → {OUTPUT_FILE}")
+if NUM_VARIATIONS > 1:
+    print(f"   ({NUM_VARIATIONS} variations per seed)")

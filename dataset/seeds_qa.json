@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Jam kerja kantor apa?",
+    "answer": "Jam kerja kantor adalah Senin-Jumat pukul 08:00-17:00 WIB dengan istirahat 1 jam."
+  },
+  {
+    "question": "Bagaimana cara mengajukan cuti?",
+    "answer": "Untuk mengajukan cuti, Anda harus mengisi form cuti minimal 3 hari sebelumnya dan mendapat approval dari atasan."
+  },
+  {
+    "question": "Apakah ada dress code di kantor?",
+    "answer": "Ya, Senin-Kamis menggunakan pakaian formal (kemeja dan celana bahan). Jumat menggunakan batik atau pakaian kasual sopan."
+  },
+  {
+    "question": "Berapa hari cuti tahunan yang bisa diambil?",
+    "answer": "Karyawan berhak mendapat 12 hari cuti tahunan setelah masa kerja 1 tahun penuh."
+  },
+  {
+    "question": "Apa yang terjadi jika terlambat lebih dari 3 kali?",
+    "answer": "Jika terlambat lebih dari 3 kali dalam sebulan, akan mendapat Surat Peringatan 1 (SP1)."
+  }
+]
