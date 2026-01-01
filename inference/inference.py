@@ -145,37 +145,16 @@ print(f"✅ RAG loaded with {index.ntotal} documents!")
 # =========================
 # RAG SEARCH FUNCTION
 # =========================
-def search_rag(query: str, top_k: int = 3, conversation_history: list = None):
+def search_rag(query: str, top_k: int = 3):
     """Search RAG index and return top-k results
     
     Args:
         query: Current user query
         top_k: Number of results to return
-        conversation_history: Previous conversation for context
     """
-    if conversation_history is None:
-        conversation_history = []
-    
-    # Build contextual query from history + current query
-    # Use last N exchanges for RAG search context
-    contextual_query_parts = []
-    
-    if conversation_history and args.history_length > 0:
-        # Get recent history (last N exchanges)
-        recent_history = conversation_history[-(args.history_length * 2):]
-        for msg in recent_history:
-            if msg["role"] == "user":
-                contextual_query_parts.append(msg["content"])
-    
-    # Add current query
-    contextual_query_parts.append(query)
-    
-    # Combine into single contextual query
-    contextual_query = " ".join(contextual_query_parts)
-    
-    # Encode contextual query
+    # Encode query
     query_embedding = embed_model.encode(
-        [contextual_query],
+        [query],
         normalize_embeddings=True
     )
     query_embedding = np.array(query_embedding).astype("float32")
@@ -211,18 +190,8 @@ def generate_response(query: str, use_rag: bool = True, conversation_history: li
     # Build context from RAG
     context_parts = []
     if use_rag:
-        # Build search query context
-        if conversation_history and args.history_length > 0:
-            recent_user_msgs = [msg["content"] for msg in conversation_history[-(args.history_length * 2):] if msg["role"] == "user"]
-            search_context = " | ".join(recent_user_msgs[-2:]) if len(recent_user_msgs) > 1 else ""
-            if search_context:
-                print(f"\n🔍 Searching with context: '{search_context}' + '{query}'")
-            else:
-                print(f"\n🔍 Searching knowledge base for: '{query}'")
-        else:
-            print(f"\n🔍 Searching knowledge base for: '{query}'")
-        
-        rag_results = search_rag(query, args.top_k, conversation_history=conversation_history)
+        print(f"\n🔍 Searching knowledge base for: '{query}'")
+        rag_results = search_rag(query, args.top_k)
         
         # Filter by score threshold
         filtered_results = [r for r in rag_results if r['score'] >= args.score_threshold]
