@@ -5,13 +5,14 @@ Script Python untuk inference dengan fine-tuned model yang dilengkapi dengan Ret
 ## Fitur
 
 - ✅ **RAG Integration** - Automatic knowledge retrieval dari FAISS index
+- ✅ **Conversation History** - Maintains context from previous exchanges
 - ✅ **Fine-tuned Model** - Support untuk model hasil fine-tuning Unsloth
-- ✅ **Interactive Chat Mode** - Multi-turn conversation
+- ✅ **Interactive Chat Mode** - Multi-turn conversation with memory
 - ✅ **Single Query Mode** - Quick testing
 - ✅ **Configurable Retrieval** - Adjustable top-k dan embedding model
 - ✅ **Context Injection** - Retrieved documents added to system prompt
 - ✅ **Score Display** - See relevance scores untuk debugging
-- ✅ **Flexible Commands** - Clear history, toggle RAG, exit
+- ✅ **Flexible Commands** - View history, clear history, toggle RAG, exit
 
 ## Requirements
 
@@ -40,7 +41,7 @@ Struktur yang dibutuhkan:
 ### 2. Interactive Chat (Recommended)
 
 ```bash
-python inference_rag.py --model ./models/della-v1 --interactive
+python inference.py --model ./models/della-v1 --interactive
 ```
 
 Output:
@@ -76,7 +77,7 @@ Commands:
 ### 3. Single Query
 
 ```bash
-python inference_rag.py --model ./models/della-v1 --query "Bagaimana cara mengajukan cuti?"
+python inference.py --model ./models/della-v1 --query "Bagaimana cara mengajukan cuti?"
 ```
 
 ## Usage
@@ -84,11 +85,12 @@ python inference_rag.py --model ./models/della-v1 --query "Bagaimana cara mengaj
 ### Interactive Mode (Chat)
 
 ```bash
-python inference_rag.py --model ./models/della-v1 --interactive
+python inference.py --model ./models/della-v1 --interactive
 ```
 
 **Interactive Commands:**
 - Ketik pertanyaan biasa untuk chat
+- `history` - View conversation history
 - `no-rag` - Disable RAG untuk query berikutnya
 - `clear` - Clear conversation history
 - `exit` / `quit` / `q` - Keluar
@@ -99,16 +101,24 @@ python inference_rag.py --model ./models/della-v1 --interactive
 🤖 Assistant: Senin-Jumat jam 8-5 sore.
 
 👤 You: Kalau terlambat bagaimana?
+💭 Using 1 previous exchanges for context
 🤖 Assistant: Kena catat nih. Lebih dari 3x sebulan bisa dapet SP1.
 
-👤 You: no-rag
-📴 RAG disabled for next query
+👤 You: Apa itu SP1?
+💭 Using 2 previous exchanges for context
+🤖 Assistant: SP1 itu Surat Peringatan 1, berlaku 6 bulan.
 
-👤 You: Cerita tentang cuaca
-🤖 Assistant: [Response tanpa RAG context]
+👤 You: history
+📜 Conversation History (3 exchanges):
+  1. 👤 user: Jam kerja kantor apa?
+  2. 🤖 assistant: Senin-Jumat jam 8-5 sore.
+  3. 👤 user: Kalau terlambat bagaimana?
+  4. 🤖 assistant: Kena catat nih. Lebih dari 3x sebulan bisa dapet SP1.
+  5. 👤 user: Apa itu SP1?
+  6. 🤖 assistant: SP1 itu Surat Peringatan 1, berlaku 6 bulan.
 
 👤 You: clear
-🗑️  Conversation cleared!
+🗑️  Conversation history cleared!
 
 👤 You: exit
 👋 Goodbye!
@@ -118,28 +128,45 @@ python inference_rag.py --model ./models/della-v1 --interactive
 
 ```bash
 # Basic
-python inference_rag.py -m ./models/della-v1 -q "Jam kerja kantor apa?"
+python inference.py -m ./models/della-v1 -q "Jam kerja kantor apa?"
 
 # With custom top-k
-python inference_rag.py -m ./models/della-v1 -q "Berapa hari cuti?" -k 5
+python inference.py -m ./models/della-v1 -q "Berapa hari cuti?" -k 5
 
 # With higher temperature (more creative)
-python inference_rag.py -m ./models/della-v1 -q "Cerita tentang kantor" -t 0.9
+python inference.py -m ./models/della-v1 -q "Cerita tentang kantor" -t 0.9
 ```
 
 ### Custom Configuration
 
 ```bash
-python inference_rag.py \
+python inference.py \
     --model ./models/della-v1 \
     --index rag/custom_index.faiss \
     --metadata rag/custom_metadata.json \
     --embed-model intfloat/multilingual-e5-small \
     --top-k 5 \
+    --history-length 5 \
     --temperature 0.8 \
     --top-p 0.95 \
     --max-tokens 512 \
     --interactive
+```
+
+### Conversation History Configuration
+
+```bash
+# Default: Keep last 2 exchanges
+python inference.py -m ./models/della-v1 --interactive
+
+# Long context: Keep 10 exchanges
+python inference.py -m ./models/della-v1 --history-length 10 --interactive
+
+# No history (stateless)
+python inference.py -m ./models/della-v1 --history-length 0 --interactive
+
+# Short memory: Only 1 exchange
+python inference.py -m ./models/della-v1 --history-length 1 --interactive
 ```
 
 ## Arguments
@@ -151,6 +178,8 @@ python inference_rag.py \
 | `--metadata` | `-d` | `rag/rag_metadata.json` | Path ke RAG metadata JSON |
 | `--embed-model` | `-e` | `intfloat/multilingual-e5-base` | Embedding model untuk RAG |
 | `--top-k` | `-k` | `3` | Number of documents to retrieve |
+| `--score-threshold` | - | `0.7` | Minimum score threshold for RAG results |
+| `--history-length` | - | `2` | Number of previous exchanges to keep in context |
 | `--max-tokens` | - | `512` | Maximum tokens to generate |
 | `--temperature` | `-t` | `0.7` | Sampling temperature (0.0-1.0) |
 | `--top-p` | `-p` | `0.9` | Top-p sampling (0.0-1.0) |
@@ -160,7 +189,7 @@ python inference_rag.py \
 ## Help
 
 ```bash
-python inference_rag.py --help
+python inference.py --help
 ```
 
 ## Complete Workflow Example
@@ -200,7 +229,7 @@ python train.py \
 ### 4. Run Inference with RAG
 
 ```bash
-python inference_rag.py -m ./models/della-v1 --interactive
+python inference.py -m ./models/della-v1 --interactive
 ```
 
 ## How RAG Works
@@ -214,13 +243,15 @@ Model hanya bergantung pada:
 - Training data yang sudah di-learn
 - General knowledge dari base model
 
-### With RAG:
+### With RAG + Conversation History:
 ```
 User Query → Embedding → FAISS Search → Top-K Documents
                                               ↓
                                       Context Injection
                                               ↓
-                                    System Prompt + Query → Model → Response
+                        Conversation History (Last N exchanges)
+                                              ↓
+                    System Prompt + History + Query → Model → Response
 ```
 
 Benefits:
@@ -228,8 +259,46 @@ Benefits:
 - ✅ **Factual accuracy** dengan source documents
 - ✅ **Consistency** dengan company rules/policies
 - ✅ **Traceability** bisa lihat source documents
+- ✅ **Context awareness** memahami follow-up questions
+- ✅ **Natural conversation** bisa reference previous answers
+- ✅ **Context awareness** memahami follow-up questions
+- ✅ **Natural conversation** bisa reference previous answers
 
-## RAG Configuration Tips
+## Configuration Tips
+
+### Conversation History Length
+
+**No History (0):**
+```bash
+--history-length 0
+```
+- Pros: Stateless, no confusion from old context
+- Cons: Cannot handle follow-up questions
+- Use: Simple Q&A, independent queries
+
+**Short History (1-2):**
+```bash
+--history-length 2  # Default
+```
+- Pros: Handles immediate follow-ups
+- Cons: Limited long-term context
+- Use: Most conversations, casual chat
+
+**Medium History (3-5):**
+```bash
+--history-length 5
+```
+- Pros: Good for multi-step discussions
+- Cons: May include irrelevant old context
+- Use: Complex topics, tutorials
+
+**Long History (10+):**
+```bash
+--history-length 10
+```
+- Pros: Very comprehensive context
+- Cons: Slow, may confuse model, token limit
+- Use: Deep discussions, story-telling
 
 ### Top-K Selection
 
@@ -354,20 +423,20 @@ Script sudah include verbose output by default:
 **Test dengan query yang berbeda:**
 ```bash
 # Direct question
-python inference_rag.py -m model -q "Jam kerja kantor apa?"
+python inference.py -m model -q "Jam kerja kantor apa?"
 
 # Related follow-up
-python inference_rag.py -m model -q "Kalau terlambat bagaimana?"
+python inference.py -m model -q "Kalau terlambat bagaimana?"
 
 # Unrelated (should retrieve less relevant docs)
-python inference_rag.py -m model -q "Bagaimana cara membuat kopi?"
+python inference.py -m model -q "Bagaimana cara membuat kopi?"
 ```
 
 ### Compare With/Without RAG
 
 ```bash
 # With RAG
-python inference_rag.py -m model -q "Jam kerja kantor apa?" --interactive
+python inference.py -m model -q "Jam kerja kantor apa?" --interactive
 
 # Then use 'no-rag' command
 👤 You: no-rag
@@ -405,12 +474,12 @@ ls -la rag/
 
 ```bash
 # Solution 1: Load model in 4-bit
-# Edit inference_rag.py line 97:
+# Edit inference.py line 97:
 load_in_4bit=True,
 
 # Solution 2: Use CPU (slower)
 export CUDA_VISIBLE_DEVICES=""
-python inference_rag.py -m model --interactive
+python inference.py -m model --interactive
 ```
 
 ### Poor Response Quality
@@ -441,14 +510,14 @@ python -c "from sentence_transformers import SentenceTransformer; SentenceTransf
 
 # Or use mirror
 export HF_ENDPOINT=https://hf-mirror.com
-python inference_rag.py -m model --interactive
+python inference.py -m model --interactive
 ```
 
 ## Advanced Usage
 
 ### Custom System Prompt
 
-Edit `inference_rag.py` untuk customize system prompt:
+Edit `inference.py` untuk customize system prompt:
 
 ```python
 if context:

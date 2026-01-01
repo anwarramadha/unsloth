@@ -55,6 +55,12 @@ parser.add_argument(
     help="Minimum score threshold for RAG results (default: 0.7)"
 )
 parser.add_argument(
+    "--history-length",
+    type=int,
+    default=2,
+    help="Number of previous exchanges to keep in context (default: 2)"
+)
+parser.add_argument(
     "--max-tokens",
     type=int,
     default=512,
@@ -97,6 +103,7 @@ print(f"📚 RAG Index: {args.index}")
 print(f"🔍 Embed Model: {args.embed_model}")
 print(f"📊 Top-K: {args.top_k}")
 print(f"🎯 Score Threshold: {args.score_threshold}")
+print(f"💬 History Length: {args.history_length} exchanges")
 print("=" * 60)
 
 # =========================
@@ -165,8 +172,16 @@ def search_rag(query: str, top_k: int = 3):
 # =========================
 # GENERATE RESPONSE
 # =========================
-def generate_response(query: str, use_rag: bool = True):
-    """Generate response with optional RAG context"""
+def generate_response(query: str, use_rag: bool = True, conversation_history: list = None):
+    """Generate response with optional RAG context and conversation history
+    
+    Args:
+        query: User's current question
+        use_rag: Whether to use RAG for context
+        conversation_history: List of previous message dicts [{"role": "user", "content": "..."}, ...]
+    """
+    if conversation_history is None:
+        conversation_history = []
     
     # Build context from RAG
     context_parts = []
@@ -207,7 +222,15 @@ Gunakan informasi di atas untuk menjawab pertanyaan dengan gaya yang sesuai deng
         "content": system_content
     })
     
-    # User query
+    # Add conversation history (limited by history_length)
+    # Keep last N exchanges (N user + N assistant messages = 2N messages)
+    if conversation_history and args.history_length > 0:
+        # Get last N exchanges (each exchange = user + assistant pair)
+        history_messages = conversation_history[-(args.history_length * 2):]
+        messages.extend(history_messages)
+        print(f"\n💭 Using {len(history_messages)//2} previous exchanges for context")
+    
+    # Current user query
     messages.append({
         "role": "user",
         "content": query
@@ -260,8 +283,11 @@ def interactive_mode():
     print("Commands:")
     print("  - Type your question to chat")
     print("  - 'no-rag' to disable RAG for next query")
-    print("  - 'clear' to clear conversation")
+    print("  - 'clear' to clear conversation history")
+    print("  - 'history' to show conversation history")
     print("  - 'exit' or 'quit' to exit")
+    print("=" * 60)
+    print(f"\n📝 Keeping last {args.history_length} exchanges in context")
     print("=" * 60)
     
     conversation_history = []
@@ -282,7 +308,17 @@ def interactive_mode():
             
             if user_input.lower() == 'clear':
                 conversation_history = []
-                print("🗑️  Conversation cleared!")
+                print("🗑️  Conversation history cleared!")
+                continue
+            
+            if user_input.lower() == 'history':
+                if conversation_history:
+                    print(f"\n📜 Conversation History ({len(conversation_history)//2} exchanges):")
+                    for i, msg in enumerate(conversation_history):
+                        role_icon = "👤" if msg["role"] == "user" else "🤖"
+                        print(f"  {i+1}. {role_icon} {msg['role']}: {msg['content'][:60]}...")
+                else:
+                    print("📭 No conversation history yet")
                 continue
             
             if user_input.lower() == 'no-rag':
@@ -290,10 +326,20 @@ def interactive_mode():
                 print("📴 RAG disabled for next query")
                 continue
             
-            # Generate response
-            response = generate_response(user_input, use_rag=use_rag)
+            # Generate response with history
+            response = generate_response(user_input, use_rag=use_rag, conversation_history=conversation_history)
             
             print(f"\n🤖 Assistant: {response}")
+            
+            # Add to conversation history
+            conversation_history.append({
+                "role": "user",
+                "content": user_input
+            })
+            conversation_history.append({
+                "role": "assistant",
+                "content": response
+            })
             
             # Reset RAG flag
             use_rag = True
@@ -309,9 +355,9 @@ def interactive_mode():
 # SINGLE QUERY MODE
 # =========================
 def single_query_mode(query: str):
-    """Process single query"""
+    """Process single query (no conversation history)"""
     print(f"\n👤 Query: {query}")
-    response = generate_response(query, use_rag=True)
+    response = generate_response(query, use_rag=True, conversation_history=[])
     print(f"\n🤖 Response: {response}")
     print("\n" + "=" * 60)
 
