@@ -1,1 +1,1 @@
-pip install markdown beautifulsoup4
+pip install markdown beautifulsoup4 faiss-cpu sentence-transformers numpy
