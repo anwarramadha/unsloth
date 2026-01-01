@@ -1,5 +1,6 @@
 import json
 import argparse
+import os
 from pathlib import Path
 from datasets import load_dataset
 from unsloth import FastLanguageModel
@@ -110,8 +111,22 @@ parser.add_argument(
     action="store_true",
     help="Use 4-bit quantization (QLoRA)"
 )
+parser.add_argument(
+    "--cache-dir",
+    type=str,
+    default=None,
+    help="Directory to cache model files (default: ~/.cache/huggingface/)"
+)
+parser.add_argument(
+    "--force-download",
+    action="store_true",
+    help="Force re-download model even if cached"
+)
 
 args = parser.parse_args()
+
+# Set cache directory
+cache_dir = args.cache_dir or os.path.expanduser("~/.cache/huggingface/")
 
 print("=" * 60)
 print("🚀 Unsloth Fine-tuning Script")
@@ -119,6 +134,8 @@ print("=" * 60)
 print(f"📦 Model: {args.model}")
 print(f"📊 Dataset: {args.dataset}")
 print(f"💾 Output: {args.output_dir}")
+print(f"🗂️  Cache Dir: {cache_dir}")
+print(f"🔄 Force Download: {args.force_download}")
 print(f"🔧 LoRA Rank: {args.lora_rank}")
 print(f"📏 Max Seq Length: {args.max_seq_length}")
 print(f"🔄 Epochs: {args.epochs}")
@@ -133,11 +150,18 @@ print("=" * 60)
 # =========================
 print("\n📥 Loading model and tokenizer...")
 
+if args.force_download:
+    print("  ⚠️  Force download enabled - re-downloading model")
+else:
+    print(f"  📂 Using cache: {cache_dir}")
+
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=args.model,
     max_seq_length=args.max_seq_length,
     dtype=None,  # Auto-detect
     load_in_4bit=args.load_in_4bit,
+    cache_dir=cache_dir,
+    force_download=args.force_download,
 )
 
 print("✅ Model loaded successfully!")

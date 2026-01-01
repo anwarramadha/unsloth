@@ -7,6 +7,7 @@ Script Python untuk fine-tuning Large Language Models menggunakan Unsloth dengan
 - ✅ **Unsloth optimization** - 2x lebih cepat dari training biasa
 - ✅ **LoRA/QLoRA support** - Memory-efficient fine-tuning
 - ✅ **4-bit quantization** - Train dengan GPU memory lebih kecil
+- ✅ **Model caching** - Auto-cache models untuk reuse
 - ✅ **ChatML format** - Support untuk conversational data
 - ✅ **Gradient checkpointing** - Reduce memory usage
 - ✅ **Multiple save formats** - LoRA adapters, merged 16-bit, merged 4-bit
@@ -151,6 +152,28 @@ python train.py \
     --gradient-accumulation-steps 16
 ```
 
+### Cache Management
+
+```bash
+# Default: Auto-cache to ~/.cache/huggingface/
+python train.py --dataset dataset.jsonl
+
+# Custom cache directory
+python train.py \
+    --dataset dataset.jsonl \
+    --cache-dir /data/model_cache
+
+# Force re-download (useful when model updated)
+python train.py \
+    --dataset dataset.jsonl \
+    --force-download
+
+# Shared cache for multi-user system
+python train.py \
+    --dataset dataset.jsonl \
+    --cache-dir /shared/huggingface_cache
+```
+
 ## Arguments
 
 | Argument | Short | Default | Deskripsi |
@@ -170,6 +193,8 @@ python train.py \
 | `--save-steps` | - | `100` | Save checkpoint every N steps |
 | `--logging-steps` | - | `10` | Log every N steps |
 | `--load-in-4bit` | - | `False` | Use 4-bit quantization (QLoRA) |
+| `--cache-dir` | - | `~/.cache/huggingface/` | Directory to cache model files |
+| `--force-download` | - | `False` | Force re-download model even if cached |
 
 ## Help
 
@@ -356,6 +381,51 @@ Training menghasilkan 3 output:
 3. **Use smaller model:**
    ```bash
    --model unsloth/Qwen2.5-7B-Instruct
+   ```
+
+4. **Use cached model** (don't force re-download):
+   ```bash
+   # First run downloads and caches
+   python train.py -d dataset.jsonl
+   
+   # Subsequent runs use cache (much faster)
+   python train.py -d dataset.jsonl
+   ```
+
+### Cache Optimization
+
+**Benefits of caching:**
+- ✅ **Faster subsequent runs** - No model re-download
+- ✅ **Bandwidth saving** - Download once, use many times
+- ✅ **Offline training** - Train without internet after first download
+
+**Cache location:**
+```bash
+# Default cache location
+~/.cache/huggingface/hub/models--unsloth--Qwen2.5-7B-Instruct/
+
+# Check cache size
+du -sh ~/.cache/huggingface/
+
+# Clear cache if needed (free up space)
+rm -rf ~/.cache/huggingface/hub/models--MODEL_NAME/
+```
+
+**Custom cache strategies:**
+
+1. **Project-specific cache:**
+   ```bash
+   --cache-dir ./project_cache
+   ```
+
+2. **Shared team cache:**
+   ```bash
+   --cache-dir /mnt/shared/models
+   ```
+
+3. **Large disk cache:**
+   ```bash
+   --cache-dir /data/huggingface
    ```
 
 ## Complete Training Workflow
@@ -612,6 +682,15 @@ A: Tidak recommended, akan sangat lambat
 
 **Q: Bisa menggunakan multiple GPUs?**  
 A: Ya, gunakan `accelerate launch --num_processes N train.py`
+
+**Q: Model di-cache dimana?**  
+A: Default di `~/.cache/huggingface/`, bisa custom dengan `--cache-dir`
+
+**Q: Bagaimana cara clear cache?**  
+A: `rm -rf ~/.cache/huggingface/` atau hapus folder model specific
+
+**Q: Apakah harus re-download model setiap kali train?**  
+A: Tidak, model otomatis di-cache. Run pertama download, selanjutnya pakai cache
 
 ## License
 
