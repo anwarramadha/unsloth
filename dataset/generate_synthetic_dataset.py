@@ -99,7 +99,10 @@ else:
 # =========================
 llm = LLM(
     model=MODEL_ID,
-    trust_remote_code=True
+    trust_remote_code=True,
+    swap_space=32,
+    gpu_memory_utilization=0.98,
+    enforce_eager=True
 )
 
 sampling_params = SamplingParams(
