@@ -122,8 +122,15 @@ parser.add_argument(
     action="store_true",
     help="Force re-download model even if cached"
 )
+parser.add_argument(
+    "--dtype",
+    type=str,
+    default="fp16",
+    help="Use specific dtype for model weights (default: fp16)"
+)
 
 args = parser.parse_args()
+torch.float16
 
 # Set cache directory
 cache_dir = args.cache_dir or os.path.expanduser("~/.cache/huggingface/")
@@ -158,7 +165,7 @@ else:
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=args.model,
     max_seq_length=args.max_seq_length,
-    dtype=None,  # Auto-detect
+    dtype=args.dtype,  # Use specified dtype
     load_in_4bit=args.load_in_4bit,
     cache_dir=cache_dir,
     force_download=args.force_download,
