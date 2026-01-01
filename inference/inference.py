@@ -49,6 +49,12 @@ parser.add_argument(
     help="Number of RAG results to retrieve (default: 3)"
 )
 parser.add_argument(
+    "--score-threshold",
+    type=float,
+    default=0.7,
+    help="Minimum score threshold for RAG results (default: 0.7)"
+)
+parser.add_argument(
     "--max-tokens",
     type=int,
     default=512,
@@ -90,6 +96,7 @@ print(f"🧠 Model: {args.model}")
 print(f"📚 RAG Index: {args.index}")
 print(f"🔍 Embed Model: {args.embed_model}")
 print(f"📊 Top-K: {args.top_k}")
+print(f"🎯 Score Threshold: {args.score_threshold}")
 print("=" * 60)
 
 # =========================
@@ -167,10 +174,16 @@ def generate_response(query: str, use_rag: bool = True):
         print(f"\n🔍 Searching knowledge base for: '{query}'")
         rag_results = search_rag(query, args.top_k)
         
-        print(f"\n📚 Retrieved {len(rag_results)} relevant documents:")
-        for i, result in enumerate(rag_results):
-            print(f"  {i+1}. [Score: {result['score']:.4f}] {result['text'][:80]}...")
-            context_parts.append(result['text'])
+        # Filter by score threshold
+        filtered_results = [r for r in rag_results if r['score'] >= args.score_threshold]
+        
+        print(f"\n📚 Retrieved {len(rag_results)} documents, {len(filtered_results)} passed threshold (>={args.score_threshold}):")
+        if filtered_results:
+            for i, result in enumerate(filtered_results):
+                print(f"  {i+1}. [Score: {result['score']:.4f}] {result['text'][:80]}...")
+                context_parts.append(result['text'])
+        else:
+            print("  ⚠️  No documents passed score threshold, using model without RAG context")
         
         context = "\n\n".join(context_parts)
     else:
