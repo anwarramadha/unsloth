@@ -11,6 +11,10 @@ pip install --upgrade pip setuptools wheel
 
 pip install markdown beautifulsoup4 faiss-cpu sentence-transformers numpy vllm accelerate transformers torch
 
+# Install Unsloth for training
+pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
+pip install --no-deps trl peft xformers bitsandbytes
+
 echo ""
 echo "✅ Installation complete!"
 echo ""
