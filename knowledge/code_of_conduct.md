@@ -49,19 +49,19 @@ Keterlambatan mencatatkan kehadiran akan dikenakan denda sesuai dengan ketentuan
 Denda: 0% - Tidak ada potongan upah untuk keterlambatan hingga 5 menit.
 
 #### Keterlambatan 5-15 menit
-Denda: 5% - Potongan 5% dari upah kerja per hari.
+Denda: 5% - Terlambat 5 menit sampai 15 menit, potongan 5% dari upah kerja per hari.
 
 #### Keterlambatan 15-30 menit
-Denda: 10% - Potongan 10% dari upah kerja per hari.
+Denda: 10% - Terlambat 15 menit sampai 30 menit, potongan 10% dari upah kerja per hari.
 
 #### Keterlambatan 30-60 menit
-Denda: 15% - Potongan 15% dari upah kerja per hari.
+Denda: 15% - Terlambat 30 menit sampai 60 menit, potongan 15% dari upah kerja per hari.
 
 #### Keterlambatan 60-120 menit
-Denda: 30% - Potongan 30% dari upah kerja per hari.
+Denda: 30% - Terlambat 60 menit sampai 120 menit, potongan 30% dari upah kerja per hari.
 
 #### Keterlambatan 120-240 menit
-Denda: 50% - Potongan 50% dari upah kerja per hari.
+Denda: 50% - Terlambat 120 menit sampai 240 menit, potongan 50% dari upah kerja per hari.
 
 ### Masa Berlaku Denda Keterlambatan
 Keputusan ini berlaku untuk meningkatkan kedisiplinan kerja karyawan dan terhitung mulai tanggal 2 Januari 2025. Keputusan akan diperbaiki kembali jika kemudian hari terdapat kekeliruan atau kesalahan.
