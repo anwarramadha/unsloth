@@ -12,6 +12,7 @@ Script Python untuk inference dengan fine-tuned model yang dilengkapi dengan Ret
 - ✅ **Configurable Retrieval** - Adjustable top-k dan embedding model
 - ✅ **Context Injection** - Retrieved documents added to system prompt
 - ✅ **Score Display** - See relevance scores untuk debugging
+- ✅ **Quiet Mode** - Disable verbose output untuk cleaner UI
 - ✅ **Flexible Commands** - View history, clear history, toggle RAG, exit
 
 ## Requirements
@@ -150,6 +151,7 @@ python inference.py \
     --temperature 0.8 \
     --top-p 0.95 \
     --max-tokens 512 \
+    --quiet \
     --interactive
 ```
 
@@ -185,6 +187,7 @@ python inference.py -m ./models/della-v1 --history-length 1 --interactive
 | `--top-p` | `-p` | `0.9` | Top-p sampling (0.0-1.0) |
 | `--interactive` | - | `False` | Enable interactive chat mode |
 | `--query` | `-q` | `None` | Single query for non-interactive mode |
+| `--quiet` | - | `False` | Disable verbose RAG output |
 
 ## Help
 
@@ -402,18 +405,36 @@ Benefits:
 
 ## Debugging & Monitoring
 
-### Enable Verbose RAG Output
+### Verbose vs Quiet Mode
 
-Script sudah include verbose output by default:
+**Verbose Mode (Default):**
+Script menampilkan detail RAG process:
 ```
 🔍 Searching knowledge base for: 'query'
-📚 Retrieved 3 relevant documents:
+📚 Retrieved 3 documents, 2 passed threshold (>=0.7):
   1. [Score: 0.8234] Document preview...
   2. [Score: 0.7456] Document preview...
-  3. [Score: 0.6789] Document preview...
+💭 Using 2 previous exchanges for context
+💬 Generating response...
 ```
 
-**Check Relevance Scores:**
+**Quiet Mode:**
+Hanya tampilkan final response:
+```bash
+python inference.py -m model --interactive --quiet
+```
+
+Output:
+```
+👤 You: Jam kerja kantor apa?
+🤖 Assistant: Senin-Jumat jam 8 pagi sampai 5 sore.
+```
+
+**Use Cases:**
+- **Verbose**: Development, debugging, testing RAG quality
+- **Quiet**: Production, demos, cleaner user experience
+
+**Check Relevance Scores (Verbose Mode):**
 - Score > 0.8: Highly relevant ✅
 - Score 0.6-0.8: Relevant 👌
 - Score < 0.6: Might be less relevant ⚠️

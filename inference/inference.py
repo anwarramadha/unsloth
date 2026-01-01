@@ -92,6 +92,11 @@ parser.add_argument(
     default=None,
     help="Single query for non-interactive mode"
 )
+parser.add_argument(
+    "--quiet",
+    action="store_true",
+    help="Disable verbose RAG output (only show final response)"
+)
 
 args = parser.parse_args()
 
@@ -104,6 +109,7 @@ print(f"🔍 Embed Model: {args.embed_model}")
 print(f"📊 Top-K: {args.top_k}")
 print(f"🎯 Score Threshold: {args.score_threshold}")
 print(f"💬 History Length: {args.history_length} exchanges")
+print(f"🔇 Quiet Mode: {'Enabled' if args.quiet else 'Disabled'}")
 print("=" * 60)
 
 # =========================
@@ -190,19 +196,25 @@ def generate_response(query: str, use_rag: bool = True, conversation_history: li
     # Build context from RAG
     context_parts = []
     if use_rag:
-        print(f"\n🔍 Searching knowledge base for: '{query}'")
+        if not args.quiet:
+            print(f"\n🔍 Searching knowledge base for: '{query}'")
         rag_results = search_rag(query, args.top_k)
         
         # Filter by score threshold
         filtered_results = [r for r in rag_results if r['score'] >= args.score_threshold]
         
-        print(f"\n📚 Retrieved {len(rag_results)} documents, {len(filtered_results)} passed threshold (>={args.score_threshold}):")
-        if filtered_results:
-            for i, result in enumerate(filtered_results):
-                print(f"  {i+1}. [Score: {result['score']:.4f}] {result['text'][:80]}...")
-                context_parts.append(result['text'])
+        if not args.quiet:
+            print(f"\n📚 Retrieved {len(rag_results)} documents, {len(filtered_results)} passed threshold (>={args.score_threshold}):")
+            if filtered_results:
+                for i, result in enumerate(filtered_results):
+                    print(f"  {i+1}. [Score: {result['score']:.4f}] {result['text'][:80]}...")
+                    context_parts.append(result['text'])
+            else:
+                print("  ⚠️  No documents passed score threshold, using model without RAG context")
         else:
-            print("  ⚠️  No documents passed score threshold, using model without RAG context")
+            # Still populate context_parts even in quiet mode
+            for result in filtered_results:
+                context_parts.append(result['text'])
         
         context = "\n\n".join(context_parts)
     else:
@@ -232,7 +244,8 @@ Gunakan informasi di atas untuk menjawab pertanyaan dengan gaya yang sesuai deng
         # Get last N exchanges (each exchange = user + assistant pair)
         history_messages = conversation_history[-(args.history_length * 2):]
         messages.extend(history_messages)
-        print(f"\n💭 Using {len(history_messages)//2} previous exchanges for context")
+        if not args.quiet:
+            print(f"\n💭 Using {len(history_messages)//2} previous exchanges for context")
     
     # Current user query
     messages.append({
@@ -249,7 +262,8 @@ Gunakan informasi di atas untuk menjawab pertanyaan dengan gaya yang sesuai deng
     ).to("cuda")
     
     # Generate
-    print("\n💬 Generating response...")
+    if not args.quiet:
+        print("\n💬 Generating response...")
     with torch.no_grad():
         outputs = model.generate(
             input_ids=inputs,
