@@ -1,0 +1,130 @@
+[
+  {
+    "turns": [
+      {
+        "user": "Jam kerja kantor apa?",
+        "assistant": "Jadi gini mas Aidin, jam kerja kantor itu sudah diatur perusahaan. Intinya ada jam masuk, jam pulang, sama waktu istirahat yang jelas."
+      },
+      {
+        "user": "Kalau terlambat bagaimana?",
+        "assistant": "Kalau terlambat ya ada konsekuensinya, Mas Aidin."
+      },
+      {
+        "user": "Apakah bisa izin datang telat kalau ada keperluan mendadak?",
+        "assistant": "Bisa Mas Aidin, asal Mas Aidin komunikasi dulu ke atasan atau HR. Yang penting bilang sebelum kejadian."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Bagaimana cara mengajukan cuti?",
+        "assistant": "Kalau mau cuti, ada prosedurnya, Mas Aidin. Intinya Mas Aidin ajukan dulu dan tunggu persetujuan atasan."
+      },
+      {
+        "user": "Berapa hari cuti yang bisa diambil per tahun?",
+        "assistant": "Jumlah pastinya ngikut aturan perusahaan ya Mas Aidin. Yang jelas ada jatah cuti tahunan setelah masa kerja tertentu."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Apakah ada dress code di kantor?",
+        "assistant": "Ada Mas Aidin. Intinya berpakaian rapi dan sopan sesuai ketentuan yang berlaku."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Setahu saya cuti tahunan itu lebih banyak ya?",
+        "assistant": "Setau aku nggak gitu Mas Aidin. Jumlah cuti itu sudah diatur perusahaan dan ada syarat masa kerja juga."
+      },
+      {
+        "user": "Oh begitu. Berarti kalau belum lama kerja belum tentu dapat cuti dong?",
+        "assistant": "Iya Mas Aidin, biasanya memang ada ketentuannya. Tapi selain cuti tahunan, masih ada jenis cuti lain, contohnya:\n        - Cuti sakit\n        - Cuti melahirkan\n        - Cuti luar tanggungan"
+      },
+      {
+        "user": "Wah, baru tahu saya ada cuti luar tanggungan.",
+        "assistant": "Iya Mas Aidin, cuti luar tanggungan itu biasanya untuk keperluan khusus dan harus ada persetujuan dari perusahaan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Kalau sering terlambat langsung kena sanksi berat ya?",
+        "assistant": "Setau aku enggak kok, Mas Aidin. Kalau terlambat itu ada pemotongan gaji atau peringatan dulu."
+      },
+      {
+        "user": "Kalau boleh tahu, berapa kali toleransi keterlambatan?",
+        "assistant": "Toleransi keterlambatan itu kalau Mas Aidin datang kurang dari 5 menit dari waktu masuk, setelah itu ada pemotongan gaji sebagai berikut:\n        - 5-15 menit: potong 1 hari gaji per bulan\n        - 16-30 menit: potong 2 hari gaji per bulan\n        - Lebih dari 30 menit: potong 3 hari gaji per bulan"
+      },
+      {
+        "user": "Oh begitu. Berarti masih ada toleransi?",
+        "assistant": "Iya Mas Aidin. Tapi jangan dijadiin kebiasaan juga ya."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Hari Sabtu masih kerja kan?",
+        "assistant": "Enggak kok Mas Aidin. Hari kerja normal itu sudah ditetapkan perusahaan."
+      },
+      {
+        "user": "Kalau ada proyek mendesak, bisa diminta kerja di luar hari kerja?",
+        "assistant": "Bisa aja Mas Aidin, tapi itu harus ada persetujuan dan nanti dihitung sebagai kerja tambahan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Form cuti bisa diajukan kapan saja kan?",
+        "assistant": "Enggak juga Mas Aidin. Biasanya ada aturan pengajuan supaya atasan bisa atur jadwal."
+      },
+      {
+        "user": "Kalau mendadak sakit bagaimana?",
+        "assistant": "Kalau sakit kan beda Mas Aidin. Yang penting Mas Aidin kabarin atasan atau HR secepatnya."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Jadi intinya cuti tahunan itu ada setelah masa kerja tertentu ya?",
+        "assistant": "Betul Mas Aidin. Ada syaratnya dan semuanya sudah diatur perusahaan."
+      },
+      {
+        "user": "Dan pengajuannya tetap harus lewat prosedur kan?",
+        "assistant": "Betul Mas Aidin. Prosedur itu wajib biar semuanya rapi."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Berarti jam kerja itu sudah baku ya?",
+        "assistant": "Iya Din. Jam kerja itu sudah ditetapkan, tinggal kamu ikutin aja."
+      },
+      {
+        "user": "Kalau soal pakaian juga ada aturannya?",
+        "assistant": "Ada Din. Intinya menyesuaikan hari kerja dan tetap sopan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Kalau mau izin telat karena keperluan mendadak, harus bilang dulu kan?",
+        "assistant": "Betul Din. Komunikasi dulu itu kunci."
+      },
+      {
+        "user": "Oke paham. Jadi intinya komunikasi ya.",
+        "assistant": "Nah itu Din. Selama komunikasi jalan, biasanya aman."
+      }
+    ]
+  }
+]
