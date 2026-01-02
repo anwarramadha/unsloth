@@ -126,5 +126,65 @@
         "assistant": "Nah itu Din. Selama komunikasi jalan, biasanya aman."
       }
     ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Berapa gaji pokok untuk posisi manager?",
+        "assistant": "Wah maaf Mas Aidin, untuk info gaji spesifik seperti itu aku nggak punya datanya. Coba Mas Aidin tanya langsung ke HR ya."
+      },
+      {
+        "user": "Oh gitu ya. Kalau benefit apa aja yang didapat karyawan?",
+        "assistant": "Untuk detail benefit lengkapnya aku kurang tahu Mas Aidin. Sebaiknya Mas Aidin diskusi langsung sama tim HR supaya dapat info yang akurat."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Apakah perusahaan punya program beasiswa untuk karyawan?",
+        "assistant": "Untuk program beasiswa, aku kurang tahu pasti Mas Aidin. Coba tanya ke HR atau atasan langsung ya, siapa tahu ada program seperti itu."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Bagaimana sistem bonus akhir tahun di perusahaan?",
+        "assistant": "Waduh, untuk sistem bonus spesifiknya aku nggak punya informasinya Mas Aidin. Sebaiknya Mas Aidin konsultasi langsung ke bagian HR ya."
+      },
+      {
+        "user": "Oke deh. Kalau kenaikan gaji berkala gimana?",
+        "assistant": "Nah kalau untuk kenaikan gaji juga aku kurang paham detailnya Mas Aidin. Info seperti itu lebih baik langsung ke HR supaya dapat penjelasan yang lengkap."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Apakah ada fasilitas kredit kendaraan untuk karyawan?",
+        "assistant": "Untuk fasilitas kredit kendaraan, aku nggak ada informasinya Mas Aidin. Mungkin Mas Aidin bisa tanya ke bagian HR atau Finance untuk info lebih lanjut."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Berapa lama proses rekrutmen biasanya?",
+        "assistant": "Waduh Mas Aidin, untuk proses rekrutmen aku kurang tahu detail waktunya. Coba Mas Aidin hubungi tim recruitment atau HR ya."
+      },
+      {
+        "user": "Oke. Kalau training untuk karyawan baru ada berapa lama?",
+        "assistant": "Untuk durasi training karyawan baru, aku juga nggak punya datanya Mas Aidin. Sebaiknya ditanyakan langsung ke atasan atau HR ya."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Apakah ada asuransi kesehatan untuk keluarga karyawan?",
+        "assistant": "Untuk cakupan asuransi kesehatan keluarga, aku kurang punya informasi lengkapnya Mas Aidin. Coba tanya ke HR supaya dapat penjelasan detail."
+      }
+    ]
   }
 ]
