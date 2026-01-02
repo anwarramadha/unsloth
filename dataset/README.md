@@ -170,6 +170,7 @@ python generate_synthetic_dataset.py -m Qwen/Qwen2.5-7B-Instruct -s seeds.json -
 | `--seed` | `-s` | `seeds_qa.json` | Seed file dengan Q&A pairs |
 | `--output` | `-o` | `synthetic_della_chatml.jsonl` | Output JSONL file |
 | `--prompt-config` | `-c` | `prompt_config.json` | Prompt configuration file |
+| `--num-variations` | `-n` | `1` | Number of variations to generate per seed |
 | `--temperature` | `-t` | `0.6` | Temperature sampling (0.0-1.0) |
 | `--top-p` | `-p` | `0.9` | Top-p sampling (0.0-1.0) |
 | `--max-tokens` | - | `256` | Maximum tokens untuk generate |
