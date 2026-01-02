@@ -122,12 +122,6 @@ parser.add_argument(
     action="store_true",
     help="Force re-download model even if cached"
 )
-parser.add_argument(
-    "--dtype",
-    type=str,
-    default="fp16",
-    help="Use specific dtype for model weights (default: fp16)"
-)
 
 args = parser.parse_args()
 torch.float16
@@ -150,7 +144,6 @@ print(f"📦 Batch Size: {args.batch_size}")
 print(f"📈 Gradient Accumulation: {args.gradient_accumulation_steps}")
 print(f"🎯 Learning Rate: {args.learning_rate}")
 print(f"🔢 4-bit Quantization: {args.load_in_4bit}")
-print(f"⚙️ dtype: {args.dtype}")
 print("=" * 60)
 
 # =========================
@@ -163,17 +156,10 @@ if args.force_download:
 else:
     print(f"  📂 Using cache: {cache_dir}")
 
-dtype = None
-
-if args.dtype.lower() == "fp16":
-    dtype = torch.float16
-elif args.dtype.lower() == "bf16":
-    dtype = torch.bfloat16
-
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=args.model,
     max_seq_length=args.max_seq_length,
-    dtype=dtype,  # Use specified dtype
+    dtype=None,  # Use default dtype
     load_in_4bit=args.load_in_4bit,
     cache_dir=cache_dir,
     force_download=args.force_download,

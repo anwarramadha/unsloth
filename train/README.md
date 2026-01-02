@@ -195,7 +195,6 @@ python train.py \
 | `--load-in-4bit` | - | `False` | Use 4-bit quantization (QLoRA) |
 | `--cache-dir` | - | `~/.cache/huggingface/` | Directory to cache model files |
 | `--force-download` | - | `False` | Force re-download model even if cached |
-| `--dtype` | - | `fp16` | Use specific dtype for model weights (default: fp16) |
 
 ## Help
 
