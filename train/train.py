@@ -150,6 +150,7 @@ print(f"📦 Batch Size: {args.batch_size}")
 print(f"📈 Gradient Accumulation: {args.gradient_accumulation_steps}")
 print(f"🎯 Learning Rate: {args.learning_rate}")
 print(f"🔢 4-bit Quantization: {args.load_in_4bit}")
+print(f"⚙️ dtype: {args.dtype}")
 print("=" * 60)
 
 # =========================
