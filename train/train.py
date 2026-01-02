@@ -162,10 +162,17 @@ if args.force_download:
 else:
     print(f"  📂 Using cache: {cache_dir}")
 
+dtype = None
+
+if args.dtype.lower() == "fp16":
+    dtype = torch.float16
+elif args.dtype.lower() == "bf16":
+    dtype = torch.bfloat16
+
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=args.model,
     max_seq_length=args.max_seq_length,
-    dtype=args.dtype,  # Use specified dtype
+    dtype=dtype,  # Use specified dtype
     load_in_4bit=args.load_in_4bit,
     cache_dir=cache_dir,
     force_download=args.force_download,
