@@ -188,7 +188,7 @@ class ChatBot:
             max_new_tokens=self.max_tokens,
             eos_token_id=self.terminators,
             temperature=self.temperature,
-            do_sample=True,
+            do_sample=False,
         )
         
         # Extract assistant response
