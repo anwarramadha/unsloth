@@ -97,7 +97,6 @@ if __name__ == '__main__':
         USER_PROMPT_TEMPLATE = args.user_template
         QUESTION_SYSTEM_PROMPT = ""
         QUESTION_USER_TEMPLATE = ""
-        print("📝 Using custom prompts from command line")
     else:
         # Load from config file
         prompt_config = json.loads(Path(args.prompt_config).read_text(encoding="utf-8"))
@@ -105,17 +104,31 @@ if __name__ == '__main__':
         USER_PROMPT_TEMPLATE = prompt_config.get("user_prompt_template", "")
         QUESTION_SYSTEM_PROMPT = prompt_config.get("question_system_prompt", "")
         QUESTION_USER_TEMPLATE = prompt_config.get("question_user_template", "")
-        print(f"📝 Loaded prompts from {args.prompt_config}")
         
     # Auto-detect question generation based on config availability
-    if QUESTION_SYSTEM_PROMPT and QUESTION_USER_TEMPLATE:
-        print("🔄 Question generation enabled: Will generate synthetic user questions")
-    else:
-        print("📋 Using original user questions from seeds")
+    GENERATE_QUESTIONS = bool(QUESTION_SYSTEM_PROMPT and QUESTION_USER_TEMPLATE)
+    
+    # =========================
+    # PRINT CONFIGURATION
+    # =========================
+    print("=" * 60)
+    print("🚀 Synthetic Dataset Generator")
+    print("=" * 60)
+    print(f"📦 Model: {MODEL_ID}")
+    print(f"📊 Seed File: {SEED_FILE}")
+    print(f"💾 Output: {OUTPUT_FILE}")
+    print(f"📝 Prompt Config: {args.prompt_config}")
+    print(f"🔄 Generate Questions: {GENERATE_QUESTIONS}")
+    print(f"🔢 Num Variations: {NUM_VARIATIONS}")
+    print(f"🌡️  Temperature: {TEMPERATURE}")
+    print(f"🎯 Top-p: {TOP_P}")
+    print(f"📏 Max Tokens: {MAX_TOKENS}")
+    print("=" * 60)
 
     # =========================
     # INIT vLLM
     # =========================
+    print("\n📥 Loading model...")
     llm = LLM(
         model=MODEL_ID,
         trust_remote_code=True,
@@ -123,6 +136,7 @@ if __name__ == '__main__':
         gpu_memory_utilization=0.98,
         enforce_eager=True
     )
+    print("✅ Model loaded successfully!")
 
     sampling_params = SamplingParams(
         temperature=TEMPERATURE,
@@ -133,7 +147,9 @@ if __name__ == '__main__':
     # =========================
     # LOAD SEEDS
     # =========================
+    print(f"\n📊 Loading seeds from {SEED_FILE}...")
     seeds = json.loads(Path(SEED_FILE).read_text(encoding="utf-8"))
+    print(f"✅ Loaded {len(seeds)} seeds")
 
     # =========================
     # GENERATE MULTITURN
@@ -281,6 +297,11 @@ if __name__ == '__main__':
                 f.write(json.dumps(chatml, ensure_ascii=False) + "\n")
                 total_generated += 1
 
-    print(f"\n✅ Generated {total_generated} conversations from {len(seeds)} seeds → {OUTPUT_FILE}")
+    print("\n" + "=" * 60)
+    print("✅ Generation completed!")
+    print(f"📊 Total conversations: {total_generated}")
+    print(f"📝 Source seeds: {len(seeds)}")
     if NUM_VARIATIONS > 1:
-        print(f"   ({NUM_VARIATIONS} variations per seed)")
+        print(f"🔄 Variations per seed: {NUM_VARIATIONS}")
+    print(f"💾 Output file: {OUTPUT_FILE}")
+    print("=" * 60)
