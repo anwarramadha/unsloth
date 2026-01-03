@@ -95,13 +95,23 @@ if __name__ == '__main__':
         # Manual override via parameters
         SYSTEM_PROMPT = args.system_prompt
         USER_PROMPT_TEMPLATE = args.user_template
+        QUESTION_SYSTEM_PROMPT = ""
+        QUESTION_USER_TEMPLATE = ""
         print("📝 Using custom prompts from command line")
     else:
         # Load from config file
         prompt_config = json.loads(Path(args.prompt_config).read_text(encoding="utf-8"))
         SYSTEM_PROMPT = prompt_config.get("system_prompt", "")
         USER_PROMPT_TEMPLATE = prompt_config.get("user_prompt_template", "")
+        QUESTION_SYSTEM_PROMPT = prompt_config.get("question_system_prompt", "")
+        QUESTION_USER_TEMPLATE = prompt_config.get("question_user_template", "")
         print(f"📝 Loaded prompts from {args.prompt_config}")
+        
+    # Auto-detect question generation based on config availability
+    if QUESTION_SYSTEM_PROMPT and QUESTION_USER_TEMPLATE:
+        print("🔄 Question generation enabled: Will generate synthetic user questions")
+    else:
+        print("📋 Using original user questions from seeds")
 
     # =========================
     # INIT vLLM
@@ -151,6 +161,31 @@ if __name__ == '__main__':
                         else:
                             print(f"  Turn {turn_idx+1}/{len(seed['turns'])}")
                         
+                        # Generate synthetic question if config available
+                        if QUESTION_SYSTEM_PROMPT and QUESTION_USER_TEMPLATE:
+                            question_gen_messages = [
+                                {
+                                    "role": "system",
+                                    "content": QUESTION_SYSTEM_PROMPT.strip()
+                                },
+                                {
+                                    "role": "user",
+                                    "content": QUESTION_USER_TEMPLATE.format(
+                                        question=turn["user"]
+                                    ).strip()
+                                }
+                            ]
+                            
+                            question_result = llm.chat(
+                                messages=question_gen_messages,
+                                sampling_params=sampling_params
+                            )
+                            
+                            synthetic_question = question_result[0].outputs[0].text.strip()
+                        else:
+                            # Use original question
+                            synthetic_question = turn["user"]
+                        
                         # Generate stylized response for this turn
                         generation_messages = [
                             {
@@ -176,7 +211,7 @@ if __name__ == '__main__':
                         # Add to conversation
                         conversation_messages.append({
                             "role": "user",
-                            "content": turn["user"]
+                            "content": synthetic_question
                         })
                         conversation_messages.append({
                             "role": "assistant",
@@ -185,6 +220,32 @@ if __name__ == '__main__':
                 
                 elif "question" in seed and "answer" in seed:
                     # Single-turn format (backward compatibility)
+                    
+                    # Generate synthetic question if config available
+                    if QUESTION_SYSTEM_PROMPT and QUESTION_USER_TEMPLATE:
+                        question_gen_messages = [
+                            {
+                                "role": "system",
+                                "content": QUESTION_SYSTEM_PROMPT.strip()
+                            },
+                            {
+                                "role": "user",
+                                "content": QUESTION_USER_TEMPLATE.format(
+                                    question=seed["question"]
+                                ).strip()
+                            }
+                        ]
+                        
+                        question_result = llm.chat(
+                            messages=question_gen_messages,
+                            sampling_params=sampling_params
+                        )
+                        
+                        synthetic_question = question_result[0].outputs[0].text.strip()
+                    else:
+                        # Use original question
+                        synthetic_question = seed["question"]
+                    
                     generation_messages = [
                         {
                             "role": "system",
@@ -208,7 +269,7 @@ if __name__ == '__main__':
                     
                     conversation_messages.append({
                         "role": "user",
-                        "content": seed["question"]
+                        "content": synthetic_question
                     })
                     conversation_messages.append({
                         "role": "assistant",

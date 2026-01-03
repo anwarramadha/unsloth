@@ -7,6 +7,7 @@ Script Python untuk menghasilkan synthetic dataset dengan persona/style kustom m
 - ✅ Support berbagai LLM via vLLM (Qwen, Llama, Mistral, dll)
 - ✅ **Multiturn conversations** (multiple exchanges dalam satu conversation)
 - ✅ **Single-turn** conversations (backward compatible)
+- ✅ **Generate synthetic questions** (variasi input user) dan responses
 - ✅ Configurable prompts via JSON file
 - ✅ Multiple persona support
 - ✅ Adjustable sampling parameters
@@ -156,6 +157,20 @@ python generate_synthetic_dataset.py \
     --max-tokens 512
 ```
 
+### Generate Synthetic Questions (Variasi Input User)
+
+Question generation akan otomatis aktif jika config file memiliki `question_system_prompt` dan `question_user_template`:
+
+```bash
+# Otomatis generate variasi pertanyaan + response
+python generate_synthetic_dataset.py \
+    --seed seeds_multiturn_aulia.json \
+    --prompt-config prompt_config_aulia.json \
+    --output synthetic_aulia_with_questions.jsonl
+```
+
+Jika config tidak memiliki question prompts, maka akan menggunakan pertanyaan original dari seed.
+
 ### Short Flags
 
 ```bash
@@ -190,17 +205,32 @@ python generate_synthetic_dataset.py --help
 ```json
 {
   "system_prompt": "Kamu adalah [PERSONA].\n\nGaya bicara:\n- Trait 1\n- Trait 2\n\nTugasmu:\n[TASK]",
-  "user_prompt_template": "Pertanyaan:\n{question}\n\nJawaban asli:\n{answer}\n\nTulis ulang jawaban di atas dengan gaya [PERSONA]."
+  "user_prompt_template": "Pertanyaan:\n{question}\n\nJawaban asli:\n{answer}\n\nTulis ulang jawaban di atas dengan gaya [PERSONA].",
+  "question_system_prompt": "Kamu adalah user yang bertanya. Gaya:\n- Natural\n- Casual\n\nTugasmu:\nTulis ulang pertanyaan dengan lebih variatif",
+  "question_user_template": "Pertanyaan asli:\n{question}\n\nTulis ulang pertanyaan di atas dengan lebih natural."
 }
 ```
 
 ### Template Variables
 
-User prompt template support 2 variables:
+**Response generation:**
 - `{question}` - Pertanyaan dari seed
 - `{answer}` - Jawaban asli dari seed
 
+**Question generation (optional, untuk `--generate-questions`):**
+- `{question}` - Pertanyaan asli dari seed
+
 ### Multiple Persona Examples
+
+**prompt_aulia.json** (Lembut, santai, sopan):
+```json
+{
+  "system_prompt": "Kamu adalah Aulia. Gaya bicara:\n- Lembut\n- Santai dan Sopan\n- Tidak bertele-tele\n- Menjawab dengan detail",
+  "user_prompt_template": "Pertanyaan:\n{question}\n\nJawaban asli:\n{answer}\n\nTulis ulang jawaban di atas dengan gaya bicara Aulia.",
+  "question_system_prompt": "Kamu adalah karyawan Aidin yang bertanya tentang aturan perusahaan. Gaya:\n- Natural dan casual\n- Bahasa informal\n- Singkat",
+  "question_user_template": "Pertanyaan asli:\n{question}\n\nTulis ulang dengan lebih natural."
+}
+```
 
 **prompt_della.json** (Casual, ceplas-ceplos):
 ```json
