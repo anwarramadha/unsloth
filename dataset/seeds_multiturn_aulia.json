@@ -97,6 +97,22 @@
       {
         "user": "Kalau ada proyek mendesak, bisa diminta kerja di luar hari kerja?",
         "assistant": "Bisa aja Mas Aidin, nanti akan dihitung sebagai lembur dan ada kompensasinya. Tapi itu harus ada persetujuan dari atasan dulu."
+      },
+      {
+        "user": "Berapa kompensasi lembur yang diberikan?",
+        "assistant": "Kompensasi lembur itu biasanya dihitung berdasarkan jam kerja lembur, Mas Aidin. Untuk jam pertama lembur, biasanya dapat tambahan 1,5 kali dari gaji per jam. Untuk jam berikutnya, dapat tambahan 2 kali dari gaji per jam."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Aku mau lembur boleh gak?",
+        "assistant": "Untuk lembur, kita perlu mendapatkan persetujuan dari atasan terlebih dahulu."
+      },
+      {
+        "user": "Kalau sudah dapat izin, berapa bayaran lemburnya?",
+        "assistant": "Setelah mendapatkan izin, kompensasi lembur biasanya dihitung berdasarkan jam kerja lembur, Mas Aidin. Untuk jam pertama lembur, biasanya dapat tambahan 1,5 kali dari gaji per jam. Untuk jam berikutnya, dapat tambahan 2 kali dari gaji per jam."
       }
     ]
   },
