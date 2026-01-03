@@ -4,11 +4,11 @@
     "turns": [
       {
         "user": "Halo kak",
-        "assistant": "Halo Mas Aidin, ada yang bisa Aul bantu?"
+        "assistant": "Halo Mas Aidin, ada yang bisa Aku bantu?"
       },
       {
         "user": "Bisa jelaskan aturan jam kerja di kantor?",
-        "assistant": "Tentu Mas Aidin. Jadi gini, jam kerja kantor itu sudah diatur perusahaan. Intinya ada jam masuk, jam pulang, sama waktu istirahat yang jelas."
+        "assistant": "Tentu Mas Aidin. Jadi gini, jam kerja di kantor itu dari Senin sampai Jumat, mulai jam 08.00 sampai jam 17.00. Istirahat makan siang biasanya jam 12.00 sampai jam 13.00."
       }
     ]
   },
@@ -16,7 +16,7 @@
     "turns": [
       {
         "user": "Selamat pagi",
-        "assistant": "Selamat pagi Mas Aidin, ada yang bisa Aul bantu?"
+        "assistant": "Selamat pagi Mas Aidin, ada yang bisa Aku bantu?"
       }
     ]
   },
@@ -24,15 +24,15 @@
     "turns": [
       {
         "user": "Jam kerja kantor apa?",
-        "assistant": "Jadi gini mas Aidin, jam kerja kantor itu sudah diatur perusahaan. Intinya ada jam masuk, jam pulang, sama waktu istirahat yang jelas."
+        "assistant": "Jadi gini mas Aidin, jam kerja di kantor itu dari Senin sampai Jumat, mulai jam 08.00 sampai jam 17.00. Istirahat makan siang biasanya jam 12.00 sampai jam 13.00."
       },
       {
         "user": "Kalau terlambat bagaimana?",
-        "assistant": "Kalau terlambat ya ada konsekuensinya, Mas Aidin."
+        "assistant": "Kalau terlambat akan ada pemotongan gaji, Mas Aidin."
       },
       {
         "user": "Apakah bisa izin datang telat kalau ada keperluan mendadak?",
-        "assistant": "Bisa Mas Aidin, asal Mas Aidin komunikasi dulu ke atasan atau HR. Yang penting bilang sebelum kejadian."
+        "assistant": "Sayangnya enggak bisa, Mas Aidin. Kalau telat itu tetap kena pemotongan gaji."
       }
     ]
   },
@@ -40,11 +40,11 @@
     "turns": [
       {
         "user": "Bagaimana cara mengajukan cuti?",
-        "assistant": "Kalau mau cuti, ada prosedurnya, Mas Aidin. Intinya Mas Aidin ajukan dulu dan tunggu persetujuan atasan."
+        "assistant": "Kalau mau cuti, ada prosedurnya, Mas Aidin. Nanti Mas Aidin harus mengisi form cuti dan ajukan ke atasan untuk disetujui."
       },
       {
         "user": "Berapa hari cuti yang bisa diambil per tahun?",
-        "assistant": "Jumlah pastinya ngikut aturan perusahaan ya Mas Aidin. Yang jelas ada jatah cuti tahunan setelah masa kerja tertentu."
+        "assistant": "Setelah masa kerja satu tahun, Mas Aidin bisa ambil cuti tahunan sebanyak 12 hari."
       }
     ]
   },
@@ -52,7 +52,7 @@
     "turns": [
       {
         "user": "Apakah ada dress code di kantor?",
-        "assistant": "Ada Mas Aidin. Intinya berpakaian rapi dan sopan sesuai ketentuan yang berlaku."
+        "assistant": "Ada Mas Aidin. Ada beberapa aturan berpakaian yang harus diikuti.\n\n- **Pakaian di Kantor**: Berpakaian rapi dan sopan.\n- **Pakaian ketika bertemu klien**: Gunakan pakaian formal seperti kemeja dan celana panjang."
       }
     ]
   },
@@ -60,15 +60,15 @@
     "turns": [
       {
         "user": "Setahu saya cuti tahunan itu lebih banyak ya?",
-        "assistant": "Setau aku nggak gitu Mas Aidin. Jumlah cuti itu sudah diatur perusahaan dan ada syarat masa kerja juga."
+        "assistant": "Setau aku nggak gitu Mas Aidin. Jumlah cuti itu 12 hari."
       },
       {
         "user": "Oh begitu. Berarti kalau belum lama kerja belum tentu dapat cuti dong?",
-        "assistant": "Iya Mas Aidin, biasanya memang ada ketentuannya. Tapi selain cuti tahunan, masih ada jenis cuti lain, contohnya:\n\n**Cuti sakit**\nCuti sakit itu biasanya diberikan kalau karyawan benar-benar sakit dan butuh istirahat.\n\n**Cuti melahirkan**\nCuti melahirkan itu khusus untuk karyawan wanita yang sedang hamil dan melahirkan anak.\n\n**Cuti luar tanggungan**\nCuti luar tanggungan itu biasanya untuk keperluan khusus dan harus ada persetujuan dari perusahaan."
+        "assistant": "Betul Mas Aidin. Tapi selain cuti tahunan, masih ada jenis cuti lain, contohnya:\n\n**Cuti sakit**\nCuti sakit itu biasanya diberikan kalau karyawan benar-benar sakit dan butuh istirahat.\n\n**Cuti melahirkan**\nCuti melahirkan itu khusus untuk karyawan wanita yang sedang hamil dan melahirkan anak.\n\n**Cuti luar tanggungan**\nCuti luar tanggungan itu biasanya untuk keperluan khusus dan harus ada persetujuan dari perusahaan."
       },
       {
         "user": "Wah, baru tahu saya ada cuti luar tanggungan.",
-        "assistant": "Iya Mas Aidin, cuti luar tanggungan itu biasanya untuk keperluan khusus dan harus ada persetujuan dari perusahaan."
+        "assistant": "Iya Mas Aidin, cuti luar tanggungan itu biasanya untuk keperluan mendesak."
       }
     ]
   },
@@ -92,11 +92,11 @@
     "turns": [
       {
         "user": "Hari Sabtu masih kerja kan?",
-        "assistant": "Enggak kok Mas Aidin. Hari kerja normal itu sudah ditetapkan perusahaan."
+        "assistant": "Enggak kok Mas Aidin, hari Sabtu dan Minggu biasanya libur."
       },
       {
         "user": "Kalau ada proyek mendesak, bisa diminta kerja di luar hari kerja?",
-        "assistant": "Bisa aja Mas Aidin, tapi itu harus ada persetujuan dan nanti dihitung sebagai kerja tambahan."
+        "assistant": "Bisa aja Mas Aidin, nanti akan dihitung sebagai lembur dan ada kompensasinya. Tapi itu harus ada persetujuan dari atasan dulu."
       }
     ]
   },
@@ -104,11 +104,11 @@
     "turns": [
       {
         "user": "Form cuti bisa diajukan kapan saja kan?",
-        "assistant": "Enggak juga Mas Aidin. Biasanya ada aturan pengajuan supaya atasan bisa atur jadwal."
+        "assistant": "Enggak juga Mas Aidin. Cuti tahunan bisa diajukan maksimal 5 hari sebelum tanggal cuti."
       },
       {
         "user": "Kalau mendadak sakit bagaimana?",
-        "assistant": "Kalau sakit kan beda Mas Aidin. Yang penting Mas Aidin kabarin atasan atau HR secepatnya."
+        "assistant": "Kalau sakit, Mas Aidin bisa langsung izin dengan melampirkan surat dokter supaya cuti sakitnya diakui."
       }
     ]
   },
@@ -128,23 +128,11 @@
     "turns": [
       {
         "user": "Berarti jam kerja itu sudah baku ya?",
-        "assistant": "Iya Mas Aidin. Jam kerja itu sudah ditetapkan, tinggal kamu ikutin aja."
+        "assistant": "Iya Mas Aidin. Jam kerja disini setiap hari Senin-Jumat jam 08.00 sampai 17.00."
       },
       {
         "user": "Kalau soal pakaian juga ada aturannya?",
-        "assistant": "Ada Mas Aidin. Intinya menyesuaikan hari kerja dan tetap sopan."
-      }
-    ]
-  },
-  {
-    "turns": [
-      {
-        "user": "Kalau mau izin telat karena keperluan mendadak, harus bilang dulu kan?",
-        "assistant": "Betul Mas Aidin. Komunikasi dulu itu kunci."
-      },
-      {
-        "user": "Oke paham. Jadi intinya komunikasi ya.",
-        "assistant": "Nah itu Mas Aidin. Selama komunikasi jalan, biasanya aman."
+        "assistant": "Ada Mas Aidin. Ada beberapa aturan berpakaian yang harus diikuti.\n        - **Pakaian di Kantor**: Berpakaian rapi dan sopan.\n        - **Pakaian ketika bertemu klien**: Gunakan pakaian formal seperti kemeja dan celana panjang."
       }
     ]
   },
