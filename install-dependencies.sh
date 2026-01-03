@@ -9,7 +9,11 @@ source unsloth/bin/activate
 
 pip install --upgrade pip setuptools wheel
 
-pip install markdown beautifulsoup4 faiss-cpu sentence-transformers numpy vllm accelerate transformers torch
+# Core dependencies for dataset generation, RAG, and inference
+pip install markdown beautifulsoup4 faiss-cpu sentence-transformers numpy vllm accelerate torch
+
+# Transformers (specific version for SahabatAI compatibility)
+pip install transformers==4.45.0
 
 # Install Unsloth for training
 pip install "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"

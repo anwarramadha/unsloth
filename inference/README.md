@@ -1,12 +1,20 @@
 # RAG-Enhanced Inference
 
-Script Python untuk inference dengan fine-tuned model yang dilengkapi dengan Retrieval-Augmented Generation (RAG). Script ini menggabungkan model yang sudah di-fine-tune dengan knowledge base untuk menghasilkan responses yang accurate dan konsisten dengan persona model.
+Script Python untuk inference dengan fine-tuned model atau model SahabatAI yang dilengkapi dengan Retrieval-Augmented Generation (RAG). Script ini menggabungkan model yang sudah di-fine-tune dengan knowledge base untuk menghasilkan responses yang accurate dan konsisten dengan persona model.
+
+## Available Scripts
+
+1. **inference.py** - RAG-enhanced inference untuk Unsloth fine-tuned models
+2. **inference_sahabatai_rag.py** - SahabatAI model dengan RAG system dan chat history
+3. **inference_sahabatai_simple.py** - Simple SahabatAI inference tanpa RAG
+4. **inference_transformers.py** - Generic transformers inference
 
 ## Fitur
 
 - ✅ **RAG Integration** - Automatic knowledge retrieval dari FAISS index
 - ✅ **Conversation History** - Maintains context from previous exchanges
 - ✅ **Fine-tuned Model** - Support untuk model hasil fine-tuning Unsloth
+- ✅ **SahabatAI Support** - Support model Bahasa Indonesia dari GoToCompany
 - ✅ **Interactive Chat Mode** - Multi-turn conversation with memory
 - ✅ **Single Query Mode** - Quick testing
 - ✅ **Configurable Retrieval** - Adjustable top-k dan embedding model
@@ -21,6 +29,9 @@ Script Python untuk inference dengan fine-tuned model yang dilengkapi dengan Ret
 pip install torch transformers unsloth
 pip install faiss-cpu sentence-transformers
 pip install numpy
+
+# For SahabatAI (recommended version)
+pip install transformers==4.45.0
 ```
 
 Atau gunakan install script:
@@ -30,7 +41,19 @@ source ./install-dependencies.sh
 
 ## Quick Start
 
-### 1. Pastikan Ada Model & RAG Index
+### Option 1: SahabatAI with RAG (Recommended)
+
+```bash
+# Simple example without RAG
+python inference_sahabatai_simple.py
+
+# Interactive chat with RAG
+python inference_sahabatai_rag.py --interactive
+```
+
+See [SahabatAI Documentation](README_sahabatai.md) for detailed usage.
+
+### Option 2: Unsloth Fine-tuned Model
 
 Struktur yang dibutuhkan:
 ```
