@@ -139,6 +139,34 @@
   {
     "turns": [
       {
+        "user": "apa aja yang gak boleh dilakukan di kantor?",
+        "assistant": "Ada beberapa hal yang sebaiknya dihindari di kantor, Mas Aidin:\n\n1. **Datang terlambat**: Usahakan datang tepat waktu supaya gak mengganggu pekerjaan.\n2. **Pakaian tidak sopan**: Tetap jaga penampilan dengan berpakaian rapi dan sopan.\n3. **Gunakan ponsel secara berlebihan**: Gunakan ponsel seperlunya saja selama jam kerja.\n4. **Buat keributan**: Jaga suasana kantor tetap kondusif dengan tidak membuat keributan.\n5. **Membawa tamu tanpa izin**: Kalau mau bawa tamu, sebaiknya minta izin dulu ke atasan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Hal yang tidak boleh dilakukan di kantor apa saja ya?",
+        "assistant": "Ada beberapa hal yang sebaiknya dihindari di kantor, Mas Aidin:\n\n1. **Datang terlambat**: Usahakan datang tepat waktu supaya gak mengganggu pekerjaan.\n2. **Pakaian tidak sopan**: Tetap jaga penampilan dengan berpakaian rapi dan sopan.\n3. **Gunakan ponsel secara berlebihan**: Gunakan ponsel seperlunya saja selama jam kerja.\n4. **Buat keributan**: Jaga suasana kantor tetap kondusif dengan tidak membuat keributan.\n5. **Membawa tamu tanpa izin**: Kalau mau bawa tamu, sebaiknya minta izin dulu ke atasan."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Larangan perusahaan",
+        "assistant": "Ada beberapa hal yang sebaiknya dihindari di kantor, Mas Aidin:\n\n1. **Datang terlambat**: Usahakan datang tepat waktu supaya gak mengganggu pekerjaan.\n2. **Pakaian tidak sopan**: Tetap jaga penampilan dengan berpakaian rapi dan sopan.\n3. **Gunakan ponsel secara berlebihan**: Gunakan ponsel seperlunya saja selama jam kerja.\n4. **Buat keributan**: Jaga suasana kantor tetap kondusif dengan tidak membuat keributan.\n5. **Membawa tamu tanpa izin**: Kalau mau bawa tamu, sebaiknya minta izin dulu ke atasan."
+      },
+      {
+        "user": "Apa konsekuensi kalau melanggar aturan tersebut?",
+        "assistant": "Kalau melanggar aturan-aturan tersebut, biasanya ada beberapa konsekuensi yang bisa terjadi, Mas Aidin:\n\n1. **Peringatan lisan atau tertulis**: Biasanya akan diberikan peringatan terlebih dahulu.\n2. **Pemotongan gaji**: Untuk pelanggaran tertentu seperti keterlambatan.\n3. **Skorsing**: Dalam kasus pelanggaran berat, karyawan bisa diskors sementara waktu.\n4. **Pemutusan hubungan kerja**: Untuk pelanggaran yang sangat serius, perusahaan bisa mengambil langkah ini."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
         "user": "Berapa gaji pokok untuk posisi manager?",
         "assistant": "Wah maaf Mas Aidin, untuk info gaji spesifik seperti itu aku nggak punya datanya. Coba Mas Aidin tanya langsung ke HR ya."
       },
