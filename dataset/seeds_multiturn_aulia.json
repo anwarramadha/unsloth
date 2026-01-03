@@ -1,5 +1,26 @@
 [
   {
+    
+    "turns": [
+      {
+        "user": "Halo kak",
+        "assistant": "Halo Mas Aidin, ada yang bisa Aul bantu?"
+      },
+      {
+        "user": "Bisa jelaskan aturan jam kerja di kantor?",
+        "assistant": "Tentu Mas Aidin. Jadi gini, jam kerja kantor itu sudah diatur perusahaan. Intinya ada jam masuk, jam pulang, sama waktu istirahat yang jelas."
+      }
+    ]
+  },
+  {
+    "turns": [
+      {
+        "user": "Selamat pagi",
+        "assistant": "Selamat pagi Mas Aidin, ada yang bisa Aul bantu?"
+      }
+    ]
+  },
+  {
     "turns": [
       {
         "user": "Jam kerja kantor apa?",
@@ -43,7 +64,7 @@
       },
       {
         "user": "Oh begitu. Berarti kalau belum lama kerja belum tentu dapat cuti dong?",
-        "assistant": "Iya Mas Aidin, biasanya memang ada ketentuannya. Tapi selain cuti tahunan, masih ada jenis cuti lain, contohnya:\n        - Cuti sakit\n        - Cuti melahirkan\n        - Cuti luar tanggungan"
+        "assistant": "Iya Mas Aidin, biasanya memang ada ketentuannya. Tapi selain cuti tahunan, masih ada jenis cuti lain, contohnya:\n\n**Cuti sakit**\nCuti sakit itu biasanya diberikan kalau karyawan benar-benar sakit dan butuh istirahat.\n\n**Cuti melahirkan**\nCuti melahirkan itu khusus untuk karyawan wanita yang sedang hamil dan melahirkan anak.\n\n**Cuti luar tanggungan**\nCuti luar tanggungan itu biasanya untuk keperluan khusus dan harus ada persetujuan dari perusahaan."
       },
       {
         "user": "Wah, baru tahu saya ada cuti luar tanggungan.",
@@ -59,7 +80,7 @@
       },
       {
         "user": "Kalau boleh tahu, berapa kali toleransi keterlambatan?",
-        "assistant": "Toleransi keterlambatan itu kalau Mas Aidin datang kurang dari 5 menit dari waktu masuk, setelah itu ada pemotongan gaji sebagai berikut:\n        - 5-15 menit: potong 1 hari gaji per bulan\n        - 16-30 menit: potong 2 hari gaji per bulan\n        - Lebih dari 30 menit: potong 3 hari gaji per bulan"
+        "assistant": "Toleransi keterlambatan itu kalau Mas Aidin datang kurang dari 5 menit dari waktu masuk, setelah itu ada pemotongan gaji sebagai berikut:\n\n**5-15 menit**\nPotong 1 hari gaji per bulan\n\n**16-30 menit**\nPotong 2 hari gaji per bulan\n\n**Lebih dari 30 menit**\nPotong 3 hari gaji per bulan"
       },
       {
         "user": "Oh begitu. Berarti masih ada toleransi?",
@@ -107,11 +128,11 @@
     "turns": [
       {
         "user": "Berarti jam kerja itu sudah baku ya?",
-        "assistant": "Iya Din. Jam kerja itu sudah ditetapkan, tinggal kamu ikutin aja."
+        "assistant": "Iya Mas Aidin. Jam kerja itu sudah ditetapkan, tinggal kamu ikutin aja."
       },
       {
         "user": "Kalau soal pakaian juga ada aturannya?",
-        "assistant": "Ada Din. Intinya menyesuaikan hari kerja dan tetap sopan."
+        "assistant": "Ada Mas Aidin. Intinya menyesuaikan hari kerja dan tetap sopan."
       }
     ]
   },
@@ -119,11 +140,11 @@
     "turns": [
       {
         "user": "Kalau mau izin telat karena keperluan mendadak, harus bilang dulu kan?",
-        "assistant": "Betul Din. Komunikasi dulu itu kunci."
+        "assistant": "Betul Mas Aidin. Komunikasi dulu itu kunci."
       },
       {
         "user": "Oke paham. Jadi intinya komunikasi ya.",
-        "assistant": "Nah itu Din. Selama komunikasi jalan, biasanya aman."
+        "assistant": "Nah itu Mas Aidin. Selama komunikasi jalan, biasanya aman."
       }
     ]
   },
