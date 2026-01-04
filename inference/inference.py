@@ -225,12 +225,7 @@ def generate_response(query: str, use_rag: bool = True, conversation_history: li
     
     # System message with context
     if context:
-        system_content = f"""Kamu adalah asisten yang membantu menjawab pertanyaan. Gunakan informasi berikut untuk menjawab pertanyaan.
-Jika dokumen berisi angka atau durasi, sebutkan angka tersebut secara eksplisit.
-Jika ada beberapa poin dalam dokumen yang tidak relavan dengan pertanyaan, abaikan saja.
-Jika dokumen tidak sesuai dengan pertanyaan, katakan bahwa informasinya belum tersedia.
-Jika dokumen tidak memuat informasi yang ditanyakan, katakan bahwa informasinya belum tersedia.
-Jangan menggunakan asumsi umum atau pengetahuan di luar dokumen.
+        system_content = f"""Kamu adalah asisten yang membantu menjawab pertanyaan berdasarkan informasi berikut:
 
 {context}
 
