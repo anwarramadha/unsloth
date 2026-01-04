@@ -79,14 +79,48 @@ html = markdown.markdown(md_text, extensions=["tables"])
 soup = BeautifulSoup(html, "html.parser")
 
 chunks = []
-current_section = "Umum"
 
-for el in soup.find_all(["h2", "h3", "h4", "p", "ul", "ol"]):
+# Track heading hierarchy
+heading_stack = {
+    "h1": "",
+    "h2": "",
+    "h3": "",
+    "h4": "",
+    "h5": "",
+    "h6": ""
+}
+
+def get_section_path():
+    """Build composite section path from heading hierarchy"""
+    parts = []
+    for level in ["h1", "h2", "h3", "h4", "h5", "h6"]:
+        if heading_stack[level]:
+            parts.append(heading_stack[level])
+    return " > ".join(parts) if parts else "Umum"
+
+def get_section_id():
+    """Build composite ID from heading hierarchy"""
+    parts = []
+    for level in ["h1", "h2", "h3", "h4", "h5", "h6"]:
+        if heading_stack[level]:
+            parts.append(slugify(heading_stack[level]))
+    return "_".join(parts) if parts else "umum"
+
+for el in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "ol"]):
     # ------------------
     # Heading
     # ------------------
-    if el.name in ["h2", "h3", "h4"]:
-        current_section = normalize_text(el.get_text())
+    if el.name.startswith("h") and len(el.name) == 2:
+        heading_level = el.name
+        heading_text = normalize_text(el.get_text())
+        
+        # Update current level
+        heading_stack[heading_level] = heading_text
+        
+        # Clear lower levels
+        level_num = int(heading_level[1])
+        for i in range(level_num + 1, 7):
+            heading_stack[f"h{i}"] = ""
 
     # ------------------
     # Paragraph
@@ -96,12 +130,15 @@ for el in soup.find_all(["h2", "h3", "h4", "p", "ul", "ol"]):
         if len(text) < 40:
             continue
 
-        for part in split_paragraph_semantic(text):
+        section_path = get_section_path()
+        section_id = get_section_id()
+
+        for idx, part in enumerate(split_paragraph_semantic(text)):
             chunks.append({
-                "id": slugify(f"{current_section}_{len(chunks)}"),
-                "text": f"{current_section}: {part}",
+                "id": f"{section_id}_p{idx}_{len(chunks)}",
+                "text": f"{section_path}: {part}",
                 "metadata": {
-                    "section": current_section,
+                    "section": section_path,
                     "source": SOURCE_NAME
                 }
             })
@@ -111,16 +148,19 @@ for el in soup.find_all(["h2", "h3", "h4", "p", "ul", "ol"]):
     # ------------------
     elif el.name in ["ul", "ol"]:
         items = [normalize_text(li.get_text()) for li in el.find_all("li")]
+        
+        section_path = get_section_path()
+        section_id = get_section_id()
 
-        for item in items:
+        for idx, item in enumerate(items):
             if len(item) < 20:
                 continue
 
             chunks.append({
-                "id": slugify(f"{current_section}_{len(chunks)}"),
-                "text": f"{current_section}: {item}",
+                "id": f"{section_id}_li{idx}_{len(chunks)}",
+                "text": f"{section_path}: {item}",
                 "metadata": {
-                    "section": current_section,
+                    "section": section_path,
                     "source": SOURCE_NAME
                 }
             })
