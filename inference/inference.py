@@ -225,7 +225,9 @@ def generate_response(query: str, use_rag: bool = True, conversation_history: li
     
     # System message with context
     if context:
-        system_content = f"""Kamu adalah asisten yang membantu menjawab pertanyaan berdasarkan informasi berikut:
+        system_content = f"""Kamu adalah asisten yang membantu menjawab pertanyaan. Dokumen perusahaan di bawah ini adalah sumber kebenaran utama.
+Jika dokumen memuat jawaban, gunakan informasi tersebut secara eksplisit.
+Jangan menolak atau mengalihkan ke HR jika jawaban tersedia di dokumen.
 
 {context}
 
